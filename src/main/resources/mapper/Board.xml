@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.project.ringo.model.dao.BoardDAO">
+ 
+ 	<insert id="insertBoard" parameterType="Board">
+		insert into board(board_subject, board_content, user_id, board_type) values(#{board_subject},#{board_content},#{user_id},#{board_type})
+	</insert>
+ 
+ 	<update id="updateBoard" parameterType="Board">
+		update board set board_subject = #{board_subject}, board_content = #{board_content}
+		where board_id = #{board_id}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="int">
+	<!-- wrapping type -->
+		delete from board where board_id = #{board_id}
+		<!-- 넘어오는 값은 하나고 getValue라는 메서드가 있는 것도 아니라 이름은 맘대로 주면 된다. -->
+	</delete>
+	
+	<resultMap type="Board" id="BoardBasicResultMap">
+		<id column="board_id" property="board_id"/>
+		<result column="board_subject" property="board_subject"/>
+		<result column="board_content" property="board_content"/>
+		<result column="user_id" property="user_id"/>
+		<result column="board_regtime" property="board_regtime"/>
+		<result column="board_views" property="board_views"/>
+		<result column="board_type" property="board_type"/>
+	</resultMap>
+	
+	<select id="getBoardList" resultMap="BoardBasicResultMap" parameterType="string">
+		<!-- resultType은 그대로 Dept다. 레코드 하나를 어떻게 표현할지를 명시하는 거고, 레코드가 여러개면 알아서 반복문 돌려서 List로 받아준다. --> 
+		select * from board where board_type=#{board_type}
+	</select>
+	
+	<select id="getBoardDetail" parameterType="_int" resultType="Board"> 
+		select * from board where board_id = #{board_id}
+	</select>
+	
+	<update id="updateHit" parameterType="int">
+		update board
+		set board_views = board_views + 1
+		where board_id = #{board_id}
+	</update>
+ </mapper>

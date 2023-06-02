@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.ringo.model.dao.PlanDetailDAO">
+	<insert id="insertPlanDetail" parameterType="PlanDetail">
+		insert into plan_detail(plan_detail_id, plan_id,content_id,trip_no, trip_date, arrival_time, isWaypoint) values(#{plan_detail_id},#{plan_id},#{content_id},#{trip_no},#{trip_date},#{arrival_time},#{isWaypoint})
+	</insert>
+ 
+ 
+ 	<update id="updatePlanDetail" parameterType="PlanDetail">
+  	UPDATE plan_detail
+	  <set>
+	    <if test="trip_no != null">trip_no = #{trip_no},</if>
+	    <if test="trip_date != null">trip_date = #{trip_date},</if>
+	    <if test="arrival_time != null">arrival_time = #{arrival_time},</if>
+	    <if test="isWaypoint != null">isWaypoint = #{isWaypoint},</if>
+	  </set>
+	  WHERE plan_detail_id = #{plan_detail_id}
+	</update>
+  	
+  	<update id="updatePlanDetailList" parameterType="java.util.List">
+        <foreach collection="list" item="item" separator=";">
+        UPDATE 
+            plan_detail
+        SET
+            trip_no = #{item.trip_no}
+            , trip_date = #{item.trip_date, jdbcType=DATE}
+         WHERE 
+         	plan_detail_id = #{item.plan_detail_id}
+        </foreach>
+    </update>
+<!-- 
+	      <if test="item.arrival_time != null">arrival_time = #{item.arrival_time},</if>
+	      <if test="item.isWaypoint != null">isWaypoint = #{item.isWaypoint},</if>
+ -->	
+	<delete id="deletePlanDetail" parameterType="int">
+	<!-- wrapping type -->
+		delete from plan_detail where plan_detail_id = #{plan_detail_id}
+		<!-- 넘어오는 값은 하나고 getValue라는 메서드가 있는 것도 아니라 이름은 맘대로 주면 된다. -->
+	</delete>
+	
+	<resultMap type="PlanDetail" id="PlanDetailBasicResultMap">
+		<id column="plan_detail_id" property="plan_detail_id"/>
+		<result column="plan_id" property="plan_id"/>
+		<result column="content_id" property="content_id"/>
+		<result column="trip_no" property="trip_no"/>
+		<result column="trip_date" property="trip_date"/>
+		<result column="arrival_time" property="arrival_time"/>
+		<result column="isWaypoint" property="isWaypoint"/>
+	</resultMap>
+	
+	<select id="getPlanDetailList" resultMap="PlanDetailBasicResultMap" parameterType="_int">
+		<!-- select * from plan_detail where plan_id=#{plan_id} -->
+		SELECT * FROM plan_detail
+		left join attraction_info
+		using (content_id)
+		where plan_id = #{plan_id}
+		order by CASE WHEN trip_date IS NULL THEN 1 ELSE 0 END,
+		trip_no;
+	</select>
+	
+	<select id="getPlanDetailDetail" parameterType="_int" resultType="PlanDetail"> 
+		select * from plan_detail where plan_detail_id = #{plan_detail_id}
+	</select>
+</mapper>
