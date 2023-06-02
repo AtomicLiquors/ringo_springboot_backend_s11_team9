@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ringo.model.dao.attraction.AttractionDAO">
+
+
+	<!-- 
+	<select id = "getAttractionList" resultType="Attraction">
+		select *
+		from attraction_info
+		limit 10
+	</select> -->
+	<select id = "getViewAttractionDetail" parameterType="map" resultType="AttractionDetail">
+		SELECT ai.content_id, ai.content_type_id, ai.title, ai.addr1, ai.first_image, ai.likes, ai.rating, ad.overview
+		 
+		<if test="user_id != null">
+		, user_liked, user_rated, user_rating
+		 </if>
+		FROM view_attraction ai
+		left join attraction_description ad
+		using (content_id)
+		<if test="user_id != null">
+		left join
+		(select 1 as user_liked, content_id from attraction_likes
+		where user_id = #{user_id}) sq_user_attr_likes
+		using(content_id)
+		left join
+		(select 1 as user_rated, content_id, attraction_rating as user_rating from attraction_rating
+		where user_id = #{user_id}) sq_user_attr_rating
+		using(content_id)
+		</if>
+		where content_id = #{content_id}
+	</select>
+	
+	<select id = "getViewAttractionList" parameterType="map" resultType="Attraction">
+		select *
+		from view_attraction
+		<if test="user_id != null">
+		left join
+		(select 1 as user_liked, content_id from attraction_likes
+		where user_id = #{user_id}) sq_user_attr_likes
+		using(content_id)
+		left join
+		(select 1 as user_rated, content_id, attraction_rating as user_rating from attraction_rating
+		where user_id = #{user_id}) sq_user_attr_rating
+		using(content_id)
+		</if>
+		<trim prefix="where" suffixOverrides="and">
+			<if test="sidoCode != null">sido_code = #{sidoCode} and</if>
+			<if test="searchKeyword != null">title like concat('%',#{searchKeyword},'%') and</if>
+			<if test="contentTypeIds != null">content_type_id in
+				<foreach collection="contentTypeIds" item="typeId" open="(" close=")" separator=",">
+      				  #{typeId}
+      			</foreach>
+      			and
+			</if>
+		</trim>
+		<if test="sortType != null">
+			<choose>
+        <when test="sortType == 'likes'">
+          order by likes desc
+        </when>
+        <when test="sortType == 'rating'">
+          order by rating desc
+        </when>
+        </choose>
+		</if>
+		limit 10
+	</select>
+	
+	
+	
+	
+	
+	<!--
+	"select content_type_id, title, sido_name, addr1, first_image, latitude, longitude\r\n"
+				+ "from attraction_info natural join sido\r\n" + "where first_image != '' and sido_name like '"
+				+ sidoName + "%' and title like '%" + searchKeyword + "%' limit 10"; 
+	 -->
+	 
+	<!-- 검색 파라미터 추가 -->
+	
+
+	<insert id="insertAttractionList" parameterType="java.util.List">
+    insert into attraction_info (
+        content_id,
+        content_type_id,
+        title,
+        addr1,
+        first_image,
+        sido_code,
+        gugun_code,
+        latitude,
+        longitude
+    ) values 
+    <foreach collection="list" item="attraction" separator=",">
+        (
+            #{attraction.content_id},
+            #{attraction.content_type_id},
+            #{attraction.title},
+            #{attraction.addr1},
+            #{attraction.first_image},
+            #{attraction.sido_code},
+            #{attraction.gugun_code},
+            #{attraction.latitude},
+            #{attraction.longitude}
+        )
+    </foreach>
+    ON DUPLICATE KEY UPDATE
+        	content_type_id = VALUES(content_type_id), 
+		    title = VALUES(title),
+		    addr1 = VALUES(addr1),
+		    first_image = VALUES(first_image),
+		    sido_code = VALUES(sido_code),
+		    gugun_code = VALUES(gugun_code),
+		    latitude = VALUES(latitude),
+		    longitude = VALUES(longitude)
+</insert>
+	<!-- #{mlevel} 필요한가? -->
+	<!-- 
+	<update id="updateAttraction" parameterType="Attraction">
+		insert into attraction_info 
+		values (#{user_id}, #{user_pw}, #{user_name}, #{user_email}, #{user_address_basic}, #{user_address_detail}, #{user_img})
+	</update>
+	
+	
+	<select id="getSidoName" parameterType="int" resultType="String">
+		select sido_name
+		from sido
+		where sido_code=#{sidoCode}
+	</select> -->
+	
+</mapper>

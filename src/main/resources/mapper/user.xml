@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ringo.model.dao.UserDAO">
+
+	<select id="getUserByIdAndPw" resultType="User">
+        SELECT *
+        FROM user
+        WHERE user_id = #{user_id} AND user_pw = #{user_pw}
+    </select>
+
+	<select id="login" parameterType="map" resultType="User">
+		select *
+		from user
+		where user_id = #{user_id} and user_pw = #{user_pw}
+	</select>
+	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from user
+		where user_id = #{user_id}
+	</select>
+	
+	<update id="saveRefreshToken" parameterType="map">
+		update user
+		set token = #{token}
+		where user_id = #{user_id}
+	</update>
+	
+	<update id="deleRefreshToken" parameterType="map">
+		update user
+		set token = #{token}
+		where user_id = #{user_id}
+	</update>
+	
+	<select id="idCheck" parameterType="String" resultType="int">
+		select count(user_id)
+		from user
+		where user_id = #{user_id}
+	</select>
+
+	<insert id="insertUser" parameterType="User">
+		insert into `user` (`user_id`, `user_pw`, `user_name`, `user_email`, `user_address_basic`, `user_address_detail`, `user_img`, `token`) 
+		values (#{user_id}, #{user_pw}, #{user_name}, #{user_email}, #{user_address_basic}, #{user_address_detail}, #{user_img}, #{token})
+	</insert>
+	
+	<!-- ADMIN -->
+	<select id="getUserList" resultType="User">
+		select *
+		from user
+		order by user_regtime
+	</select>
+	
+	<select id="getUserById" parameterType="string" resultType="User">
+		select *
+		from user
+		where user_id = #{user_id}
+	</select>
+	
+	<select id="getUserByNo" parameterType="int" resultType="User">
+		select *
+		from user
+		where user_no = #{user_no}
+	</select>
+	
+	<update id="updateUser" parameterType="User">
+		update user
+		<trim prefix="set" suffixOverrides=",">
+			<if test="user_id != null">user_id = #{user_id},</if>
+			<if test="user_pw != null">user_pw = #{user_pw},</if>
+			<if test="user_name != null">user_name = #{user_name},</if>
+			<if test="user_email != null">user_email = #{user_email},</if>
+			<if test="user_address_basic != null">user_address_basic = #{user_address_basic},</if>
+			<if test="user_address_detail != null">user_address_detail = #{user_address_detail},</if>
+			<if test="user_grade != null">user_grade = #{user_grade},</if>
+			<if test="user_img != null">user_img = #{user_img},</if>
+		</trim>
+		where user_no = #{user_no}
+	</update>
+	
+	<delete id="deleteUser" parameterType="int">
+		delete from user
+		where user_no = #{user_no}
+	</delete>
+	
+</mapper>

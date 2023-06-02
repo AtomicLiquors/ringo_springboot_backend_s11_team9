@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.ringo.model.dao.ReviewsDAO">
+
+	<select id="getReviews" parameterType="int">
+		select review_id, review_title, review_content, review_img, review_regtime, user_id, user_img
+		from reviews
+		left join user
+		using (user_id)
+		where content_id = #{content_id};
+	</select>
+
+	<insert id="addReviews" parameterType="Reviews">
+		insert into Reviews(user_id, content_id, review_title,review_content,review_img) values(#{user_id},#{content_id},#{review_title},#{review_content},#{review_img})
+	</insert>
+ 
+ 	<update id="updateReviews" parameterType="Reviews">
+		update Reviews set review_content = #{review_content}, review_title=#{review_title},review_img=#{review_img}
+		where review_id = #{review_id}
+	</update>
+	
+	<delete id="deleteReviews" parameterType="int">
+	<!-- wrapping type -->
+		delete from Reviews where review_id = #{review_id}
+		<!-- 넘어오는 값은 하나고 getValue라는 메서드가 있는 것도 아니라 이름은 맘대로 주면 된다. -->
+	</delete>
+	
+	<resultMap type="Reviews" id="ReviewsBasicResultMap">
+		<id column="review_id" property="review_id"/>
+		<result column="user_id" property="user_id"/>
+		<result column="content_id" property="content_id"/>
+		<result column="review_title" property="review_title"/>
+		<result column="review_content" property="review_content"/>
+		<result column="review_img" property="review_img"/>
+		<result column="review_regtime" property="review_regtime"/>
+	</resultMap>
+	
+	<select id="getReviewsByCotentId" resultMap="ReviewsBasicResultMap" parameterType="int">
+		<!-- resultType은 그대로 Dept다. 레코드 하나를 어떻게 표현할지를 명시하는 거고, 레코드가 여러개면 알아서 반복문 돌려서 List로 받아준다. --> 
+		select review_id, review_title, review_content, review_img, review_regtime, user_id, user_img
+		from reviews
+		left join user
+		using (user_id)
+		where content_id = #{content_id};
+	</select>
+	
+	<!-- <select id="getReviews" parameterType="_int" resultType="Reviews"> 
+		select * from Reviews where review_id = #{review_id}
+	</select> -->
+
+</mapper>

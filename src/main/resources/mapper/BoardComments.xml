@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper    
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"    
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.project.ringo.model.dao.BoardCommentsDAO">
+ 
+ 	<insert id="addBoardComment" parameterType="BoardComments">
+		insert into board_comments(board_comments_id, board_id, board_comments_content, user_id,board_comments_regtime) values(#{board_comments_id},#{board_id},#{board_comments_content},#{user_id},#{board_comments_regtime})
+	</insert>
+ 
+ 	<update id="updateBoardComments" parameterType="BoardComments">
+		update board_comments set board_comments_content = #{board_comments_content}
+		where board_comments_id = #{board_comments_id}
+	</update>
+	
+	<delete id="deleteBoardComment" parameterType="int">
+	<!-- wrapping type -->
+		delete from board_comments where board_comments_id = #{board_comments_id}
+		<!-- 넘어오는 값은 하나고 getValue라는 메서드가 있는 것도 아니라 이름은 맘대로 주면 된다. -->
+	</delete>
+	
+	<resultMap type="BoardComments" id="BoardCommentsBasicResultMap">
+		<id column="board_comments_id" property="board_comments_id"/>
+		<result column="board_id" property="board_id"/>
+		<result column="board_comments_content" property="board_comments_content"/>
+		<result column="user_id" property="user_id"/>
+		<result column="board_comments_regtime" property="board_comments_regtime"/>
+	</resultMap>
+	
+	<select id="getBoardCommentsByBoardId" resultMap="BoardCommentsBasicResultMap" parameterType="int">
+		<!-- resultType은 그대로 Dept다. 레코드 하나를 어떻게 표현할지를 명시하는 거고, 레코드가 여러개면 알아서 반복문 돌려서 List로 받아준다. --> 
+		select * from board_comments where board_id=#{board_id}
+	</select>
+	
+	<select id="getBoardComment" parameterType="_int" resultType="BoardComments"> 
+		select * from board_comments where board_comments_id = #{board_comments_id}
+	</select>
+	
+ </mapper>

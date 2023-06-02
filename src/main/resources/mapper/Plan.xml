@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.ringo.model.dao.PlanDAO">
+	<insert id="insertPlan" parameterType="Plan">
+		insert into plan(user_id, plan_title,plan_desc, plan_start_date, plan_end_date, plan_thumbnail) 
+		values(#{user_id},#{plan_title},#{plan_desc},#{plan_start_date},#{plan_end_date},#{plan_thumbnail})
+		<selectKey resultType="int" keyProperty="plan_id" order="AFTER">
+    		SELECT LAST_INSERT_ID()
+  		</selectKey> 
+	</insert>
+ 
+ 	<update id="updatePlan" parameterType="Plan">
+		update plan 
+		<trim prefix="set" suffixOverrides=",">
+			<if test="plan_start_date != null">plan_start_date = #{plan_start_date},</if>
+			<if test="plan_end_date != null">plan_end_date = #{plan_end_date},</if>
+			<if test="plan_thumbnail != null">plan_thumbnail = #{plan_thumbnail},</if>
+			<if test="plan_desc != null">plan_desc = #{plan_desc},</if>
+			<if test="plan_title != null">plan_title = #{plan_title}</if>
+		</trim>
+		where plan_id = #{plan_id}
+	</update>
+	
+	<delete id="deletePlan" parameterType="int">
+	<!-- wrapping type -->
+		delete from plan where plan_id = #{plan_id}
+		<!-- 넘어오는 값은 하나고 getValue라는 메서드가 있는 것도 아니라 이름은 맘대로 주면 된다. -->
+	</delete>
+	
+	<resultMap type="Plan" id="PlanBasicResultMap">
+		<id column="plan_id" property="plan_id"/>
+		<result column="user_id" property="user_id"/>
+		<result column="plan_title" property="plan_title"/>
+		<result column="plan_desc" property="plan_desc"/>
+
+		<result column="plan_start_date" property="plan_start_date"/>
+		<result column="user_id" property="user_id"/>
+		<result column="plan_end_date" property="plan_end_date"/>
+		<result column="plan_thumbnail" property="plan_thumbnail"/>
+	</resultMap>
+	
+	<select id="getPlanList" resultMap="PlanBasicResultMap" parameterType="string">
+		<!-- resultType은 그대로 Dept다. 레코드 하나를 어떻게 표현할지를 명시하는 거고, 레코드가 여러개면 알아서 반복문 돌려서 List로 받아준다. --> 
+		select * from plan where user_id=#{user_id}
+	</select>
+	
+	<select id="getPlanDetail" parameterType="_int" resultType="Plan"> 
+		select * from plan where plan_id = #{plan_id}
+	</select>
+</mapper>

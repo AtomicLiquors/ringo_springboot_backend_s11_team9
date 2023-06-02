@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ringo.model.dao.attraction.AttractionLikesDAO">
+	
+	<select id="getAttractionLikes" parameterType="AttractionLikes" resultType="int">
+		select count(*)
+		from attraction_likes
+		where user_id = #{user_id} and content_id = #{content_id} 
+	</select>
+	
+	<insert id="addAttractionLikes" parameterType="AttractionLikes">
+		insert into attraction_likes (`user_id`, `content_id`)
+		values (#{user_id}, #{content_id})
+	</insert>
+	
+	<delete id="deleteAttractionLikes" parameterType="AttractionLikes">
+		delete from attraction_likes
+		where user_id = #{user_id} and content_id = #{content_id} 
+	</delete>
+	
+</mapper>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.ringo.model.dao.attraction.AttractionRatingDAO">
+	
+	<select id="getAttractionRating" parameterType="AttractionRating" resultType="float">
+		select attraction_rating
+		from attraction_rating
+		where user_id = #{user_id} and content_id = #{content_id}
+	</select>
+	
+	<insert id="insertAttractionRating" parameterType="AttractionRating">
+		insert into attraction_rating
+		(`user_id`,
+		`content_id`,
+		`attraction_rating`) 
+		values (#{user_id}, #{content_id}, #{attraction_rating})
+	</insert>
+			
+	<update id="modifyAttractionRating" parameterType="AttractionRating">
+		update attraction_rating set  
+		`attraction_rating` = #{attraction_rating}
+		where user_id = #{user_id} and content_id = #{content_id} 
+	</update>
+	
+	
+	<delete id="deleteAttractionRating" parameterType="AttractionRating">
+		delete from attraction_rating
+		where user_id = #{user_id} and content_id = #{content_id}
+	</delete>
+	
+</mapper>
