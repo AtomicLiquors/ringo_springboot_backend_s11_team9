@@ -1,6 +1,5 @@
 # EnjoyTrip_DB_서울_11_최효빈_이강희
-<iframe width="560" height="315" src="https://www.youtube.com/embed/Zujd17yREBY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
+![시연](https://www.youtube.com/watch?v=Zujd17yREBY)
 # 팀원 소개
 
 | 팀원   |
