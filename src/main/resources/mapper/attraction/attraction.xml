@@ -83,40 +83,43 @@
 	
 
 	<insert id="insertAttractionList" parameterType="java.util.List">
-    insert into attraction_info (
-        content_id,
-        content_type_id,
-        title,
-        addr1,
-        first_image,
-        sido_code,
-        gugun_code,
-        latitude,
-        longitude
-    ) values 
-    <foreach collection="list" item="attraction" separator=",">
-        (
-            #{attraction.content_id},
-            #{attraction.content_type_id},
-            #{attraction.title},
-            #{attraction.addr1},
-            #{attraction.first_image},
-            #{attraction.sido_code},
-            #{attraction.gugun_code},
-            #{attraction.latitude},
-            #{attraction.longitude}
-        )
-    </foreach>
-    ON DUPLICATE KEY UPDATE
-        	content_type_id = VALUES(content_type_id), 
-		    title = VALUES(title),
-		    addr1 = VALUES(addr1),
-		    first_image = VALUES(first_image),
-		    sido_code = VALUES(sido_code),
-		    gugun_code = VALUES(gugun_code),
-		    latitude = VALUES(latitude),
-		    longitude = VALUES(longitude)
-</insert>
+	    insert into attraction_info (
+	        content_id,
+	        content_type_id,
+	        title,
+	        addr1,
+	        first_image,
+	        sido_code,
+	        gugun_code,
+	        latitude,
+	        longitude
+	    ) values 
+	    <foreach collection="list" item="attraction" separator=",">
+	        (
+	            #{attraction.content_id},
+	            #{attraction.content_type_id},
+	            #{attraction.title},
+	            #{attraction.addr1},
+	            #{attraction.first_image},
+	            #{attraction.sido_code},
+	            #{attraction.gugun_code},
+	            #{attraction.latitude},
+	            #{attraction.longitude}
+	        )
+	    </foreach>
+	    ON DUPLICATE KEY UPDATE
+	        	content_type_id = VALUES(content_type_id), 
+			    title = VALUES(title),
+			    addr1 = VALUES(addr1),
+			    first_image = VALUES(first_image),
+			    sido_code = VALUES(sido_code),
+			    gugun_code = VALUES(gugun_code),
+			    latitude = VALUES(latitude),
+			    longitude = VALUES(longitude)
+	</insert>
+	
+	
+	
 	<!-- #{mlevel} 필요한가? -->
 	<!-- 
 	<update id="updateAttraction" parameterType="Attraction">
