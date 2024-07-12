@@ -65,10 +65,11 @@ https://www.youtube.com/watch?v=Zujd17yREBY
 ![](./capture/post_user.PNG)
 
 ## 4.3. 게시판 (get, post)
+<!--
 ![](./capture/get_board.PNG)
 
 ![](./capture/post_board.PNG)
-
+-->
 ## 4.4. 여행계획 (get, post)
 
 ![](./capture/get_plan.PNG)
