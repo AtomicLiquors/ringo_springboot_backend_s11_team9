@@ -49,8 +49,8 @@ public class PlanDetailController {
 	
 	@PostMapping
 	protected ResponseEntity<?> insertPlanDetail(@RequestBody PlanDetail planDetail) throws Exception {
-		boolean flag = planDetailService.insertPlanDetail(planDetail);
-		if(flag) {
+		boolean result = planDetailService.insertPlanDetail(planDetail);
+		if(result) {
 			return ResponseEntity.created(URI.create("/api/plans/"+planDetail.getPlan_id()+"/"+planDetail.getPlan_detail_id())).build();
 		}else {
 			return ResponseEntity.internalServerError().build();
