@@ -41,20 +41,9 @@ public class PlanController {
 	
 	@PostMapping
 	protected ResponseEntity<Integer> insertPlan(@RequestBody Plan plan) throws Exception {
-		boolean flag = planService.insertPlan(plan);
-		if(flag) {
-			
-			System.out.println(plan.getPlan_id());
-			
-			//return ResponseEntity.created(URI.create("/api/plans/"+plan.getPlan_id())).build();
-			//return ResponseEntity.created(URI.create("/api/plans/"+plan.getPlan_id())).header("locations", "/api/plans/"+plan.getPlan_id()).build();
-//	        HttpHeaders headers = new HttpHeaders();
-//	        headers.add("ssafy-header", "seoul11");
-//	        headers.add("Content-Length", "10");
-//	        headers.add("test", "test");
-	
-	        return new ResponseEntity<Integer>(plan.getPlan_id(),HttpStatus.OK);
-			//return ResponseEntity.created(URI.create("/api/plans/"+plan.getPlan_id())).headers(headers).build();
+		boolean result = planService.insertPlan(plan);
+		if(result) {
+			return new ResponseEntity<Integer>(plan.getPlan_id(),HttpStatus.OK);
 		}else {
 			return ResponseEntity.internalServerError().build();
 		}
