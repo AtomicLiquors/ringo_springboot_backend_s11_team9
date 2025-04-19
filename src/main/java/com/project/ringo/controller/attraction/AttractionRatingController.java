@@ -50,8 +50,8 @@ public class AttractionRatingController {
 
 	@DeleteMapping
 	protected ResponseEntity<?> deleteUser(@RequestBody AttractionRating attrRating) throws Exception {
-		boolean likes = attractionRatingService.deleteAttractionRating(attrRating);
-		if (likes) {
+		boolean isDeleteSuccessful = attractionRatingService.deleteAttractionRating(attrRating);
+		if (isDeleteSuccessful) {
 			attractionRatingService.deleteAttractionRating(attrRating);
 			return ResponseEntity.noContent().build();
 		} else {
