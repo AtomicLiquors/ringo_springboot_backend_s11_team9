@@ -43,12 +43,8 @@ public class FileController {
 
 			Files.createDirectories(Paths.get(imgPath)); // 존재하지 않으면 디렉토리를 생성
 			
-			System.out.println(imgPath);
 			String fileName = fileNamePrefix + originalfileName;
-			
-			System.out.println(fileName);
 			File dest = new File(imgPath + fileName);
-			System.out.println(fileName);
 			file.transferTo(dest);
 
 			fileNameList.add(fileName);
