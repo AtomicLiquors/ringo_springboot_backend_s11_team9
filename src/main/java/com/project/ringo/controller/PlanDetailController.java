@@ -35,12 +35,6 @@ public class PlanDetailController {
 	PlanDetailService planDetailService;
 	
 	public static final Logger logger = LoggerFactory.getLogger(PlanDetailController.class);
-
-	//////////////////////////////////////////////////////////////////////////////////////////
-	//아래는 PlanDetail//
-	//               // 
-	//////////////////////////////////////////////////////////////////////////////////////////
-	
 	
 	@GetMapping("/list/{plan_id}")
 	protected ResponseEntity<List<PlanDetail>> getPlanDetialList(@PathVariable int plan_id) throws Exception{
