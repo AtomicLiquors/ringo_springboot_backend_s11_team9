@@ -24,6 +24,8 @@ public class FileController {
 	@Value("${filepath}")
 	String filepath;
 	// filepath는 application.properties에서 관리 중.
+	final String imgPath = filepath + "/img/";
+	final String fileNamePrefix = "ringoImage";
 
 	@PostMapping("")
 	@ResponseStatus(HttpStatus.CREATED)
@@ -36,8 +38,6 @@ public class FileController {
 		String formatDate = sdt.format(date);
 		String datePath = formatDate.replace("-", File.separator);
 
-		String imgPath = filepath + "/img/";
-		String fileNamePrefix = "ringoImage";
 		for (MultipartFile file : files) {
 			String originalfileName = file.getOriginalFilename();
 
