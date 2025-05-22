@@ -28,18 +28,6 @@ public class AttractionController {
 
 
 
-	//@GetMapping() 
-	/*
-	protected ResponseEntity<List<Attraction>> getAttractionList(String sidoName, String searchKeyword)
-			throws Exception {
-		List<Attraction> attraction = attractionService.getAttractionList(sidoName, searchKeyword);
-		if (attraction != null) {
-			return new ResponseEntity<List<Attraction>>(attraction, HttpStatus.OK);
-		} else {
-			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
-
-	}*/
 	@PostMapping("/detail")
 	protected ResponseEntity<AttractionDetail> getViewAttractionDetail(@RequestBody PickAttractionDto pickAttractionDto)
 			throws Exception {
@@ -62,8 +50,6 @@ public class AttractionController {
 		if(contentTypeIds != null && contentTypeIds.length == 0) contentTypeIds = null;
 		
 		String user_id = searchAttraction.getUser_id();
-		
-		//System.out.println(sortType);
 		
 		List<Attraction> attractions = attractionService.getViewAttractionList(sidoCode, searchKeyword, contentTypeIds, user_id, sortType);
 		if (attractions != null) {
