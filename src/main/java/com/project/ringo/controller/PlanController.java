@@ -50,7 +50,6 @@ public class PlanController {
 	}
 
 	@PutMapping
-	//("/{plan_id}")
 	protected ResponseEntity<?> updatePlan(@RequestBody Plan plan) throws Exception {
 		planService.updatePlan(plan);
 		return ResponseEntity.ok().build();
