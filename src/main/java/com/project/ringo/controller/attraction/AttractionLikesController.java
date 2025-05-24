@@ -35,12 +35,9 @@ public class AttractionLikesController {
 		this.attrLikesService = attrLikesService;
 	}
 
-	// 좋아요 관리
 	@GetMapping
 	protected ResponseEntity<Integer> getAttractionLikes(@RequestBody AttractionLikes attrLikes) throws Exception {
 		Integer likes = attrLikesService.getAttractionLikes(attrLikes);
-		System.out.println(likes);
-		//좋아요가 없는 걸 조회했을 땐 어떻게 뜨는가?
 		return new ResponseEntity<Integer>(likes, HttpStatus.OK);			
 	}
 
