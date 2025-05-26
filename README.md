@@ -1,7 +1,7 @@
 # EnjoyTrip_DB_서울_11_최효빈_이강희
 https://www.youtube.com/watch?v=Zujd17yREBY
 # 팀원 소개
-
+  
 | 팀원   |
 | ------ |
 | 최효빈 |
