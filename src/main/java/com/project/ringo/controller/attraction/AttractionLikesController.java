@@ -43,12 +43,11 @@ public class AttractionLikesController {
 
 	@PostMapping
 	protected ResponseEntity<?> addAttractionLikes(@RequestBody AttractionLikes attrLikes) throws Exception {
-		boolean flag = attrLikesService.addAttractionLikes(attrLikes);
-		if (flag) {
+		boolean result = attrLikesService.addAttractionLikes(attrLikes);
+		if (result)
 			return new ResponseEntity(HttpStatus.CREATED);
-		} else {
+		else
 			return ResponseEntity.internalServerError().build();
-		}
 	}
 
 	@DeleteMapping
@@ -57,7 +56,7 @@ public class AttractionLikesController {
 		if (likes > 0) {
 			attrLikesService.deleteAttractionLikes(attrLikes);
 			return ResponseEntity.noContent().build();
-		} else {
+		} else{
 			return ResponseEntity.notFound().build();
 		}
 	}
