@@ -56,7 +56,7 @@ public class AttractionLikesController {
 		if (likes > 0) {
 			attrLikesService.deleteAttractionLikes(attrLikes);
 			return ResponseEntity.noContent().build();
-		} else{
+		} else {
 			return ResponseEntity.notFound().build();
 		}
 	}
