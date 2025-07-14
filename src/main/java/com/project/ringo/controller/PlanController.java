@@ -42,11 +42,10 @@ public class PlanController {
 	@PostMapping
 	protected ResponseEntity<Integer> insertPlan(@RequestBody Plan plan) throws Exception {
 		boolean result = planService.insertPlan(plan);
-		if(result) {
+		if(result) 
 			return new ResponseEntity<Integer>(plan.getPlan_id(),HttpStatus.OK);
-		}else {
+		else 
 			return ResponseEntity.internalServerError().build();
-		}
 	}
 
 	@PutMapping
@@ -69,11 +68,9 @@ public class PlanController {
 	@GetMapping("/{plan_id}")
 	protected ResponseEntity<Plan> getPlanDetail(@PathVariable int plan_id) throws Exception {
 		Plan plan = planService.getPlanDetail(plan_id);
-		if(plan!=null) {
+		if(plan!=null) 
 			return new ResponseEntity<Plan>(plan,HttpStatus.OK);
-
-		}else {
+		else 
 			return new ResponseEntity(HttpStatus.NOT_FOUND);
-		}
 	}
 }
